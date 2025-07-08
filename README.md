@@ -100,4 +100,4 @@ Ce projet est un exemple simple. Les contributions sont les bienvenues pour amé
 
 ## 📄 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+Ce projet est sous licence MIT.
