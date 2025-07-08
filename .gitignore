@@ -1,0 +1,32 @@
+# Fichiers et dossiers généraux à ignorer
+.DS_Store
+.env
+.npmrc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/ # Pour les utilisateurs d'IntelliJ IDEA/WebStorm
+.vscode/ # Pour les paramètres VSCode locaux (peut être utile à versionner si l'équipe partage des config)
+
+# Dépendances Node.js
+node_modules/
+dist/
+build/
+
+# Fichiers temporaires ou générés
+tmp/
+*.log
+*.log.*
+*.pid
+*.seed
+*.lock
+
+# Logs et fichiers de données de l'application
+logs/
+*.sqlite
+*.sqlite-journal
+
+# Fichiers spécifiques au projet Mini-VSCode
+uploads/
+views/css
+# Le dossier où Multer stocke les fichiers uploadés temporairement

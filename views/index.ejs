@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-VSCode - Uploader un fichier</title>
+>
+</head>
+<body>
+    <div class="container">
+        <h1>Mini-VSCode</h1>
+        <p>Uploader un fichier texte pour l'éditer.</p>
+
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="fileToUpload" id="fileToUpload" required>
+            <label for="fileToUpload" class="custom-file-upload">📂 Choisir un fichier</label>
+            <span id="file-name-display">Aucun fichier choisi</span>
+            <button type="submit" class="btn">⬆️ Uploader</button>
+        </form>
+    </div>
+
+    <style>
+        /* Styles CSS intégrés directement pour la page d'accueil (à des fins d'apprentissage) */
+        /* Normalement, ce code serait dans public/css/style.css */
+
+        /* Importation des polices Google Fonts: Inter pour le texte général et Fira Code pour le code */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap');
+
+        :root {
+            /* Couleurs inspirées de VSCode */
+            --vscode-bg-dark: #1e1e1e; /* Fond principal sombre */
+            --vscode-bg-medium: #252526; /* Fond des panneaux/conteneurs */
+            --vscode-bg-light: #333333; /* Fond des éléments actifs/hover */
+            --vscode-text-light: #cccccc; /* Texte clair sur fond sombre */
+            --vscode-text-medium: #999999; /* Texte secondaire */
+            --vscode-accent-blue: #007acc; /* Bleu d'accentuation */
+            --vscode-accent-green: #4caf50; /* Vert pour les actions positives */
+            --vscode-border: #3c3c3c; /* Bordure subtile */
+            --vscode-shadow: rgba(0, 0, 0, 0.3); /* Ombre légère */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Police principale */
+            background-color: var(--vscode-bg-dark); /* Fond principal sombre */
+            color: var(--vscode-text-light); /* Texte clair */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Empêche le défilement horizontal */
+        }
+
+        .container {
+            background-color: var(--vscode-bg-medium); /* Fond du conteneur */
+            padding: 40px;
+            border-radius: 8px; /* Bords légèrement arrondis */
+            box-shadow: 0 4px 15px var(--vscode-shadow); /* Ombre plus douce */
+            width: 100%;
+            max-width: 1000px;
+            box-sizing: border-box;
+            text-align: center;
+            margin: 20px;
+            border: 1px solid var(--vscode-border); /* Bordure subtile */
+        }
+
+        h1 {
+            color: var(--vscode-text-light);
+            margin-bottom: 25px;
+            font-size: 2.8em; /* Taille de titre plus grande */
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre de texte subtile */
+        }
+
+        p {
+            color: var(--vscode-text-medium);
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+
+        /* Formulaire d'upload */
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: var(--vscode-bg-light); /* Fond du bouton */
+            color: var(--vscode-text-light);
+            border: 1px solid var(--vscode-border); /* Bordure */
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-file-upload:hover {
+            background-color: #444444; /* Légèrement plus clair au survol */
+            transform: translateY(-1px); /* Léger soulèvement */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #fileToUpload {
+            display: none;
+        }
+
+        #file-name-display {
+            font-size: 1em;
+            color: var(--vscode-text-medium);
+            margin-top: -10px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        /* Boutons génériques */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border: none; /* Pas de bordure par défaut */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: white; /* Couleur de texte par défaut pour les boutons */
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn[type="submit"] {
+            background-color: var(--vscode-accent-blue); /* Bleu VSCode pour l'action principale */
+            border: 1px solid #005f99; /* Bordure plus foncée */
+        }
+
+        .btn[type="submit"]:hover {
+            background-color: #006bb3; /* Bleu légèrement plus foncé au survol */
+        }
+
+        .save-btn {
+            background-color: var(--vscode-accent-green); /* Vert pour sauvegarder */
+            border: 1px solid #3d8b40;
+        }
+
+        .save-btn:hover {
+            background-color: #449d48;
+        }
+
+        .back-btn {
+            background-color: var(--vscode-bg-light); /* Gris sombre pour le retour */
+            border: 1px solid var(--vscode-border);
+            margin-top: 15px;
+            color: var(--vscode-text-light);
+        }
+
+        .back-btn:hover {
+            background-color: #444444;
+        }
+
+        /* Messages de succès/erreur */
+        .success-message {
+            color: #a7d9b7; /* Vert clair sur fond sombre */
+            background-color: #2e4a35; /* Fond vert foncé */
+            border: 1px solid #3c6e45;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        /* Formulaire d'édition */
+        .editor-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Styles spécifiques pour Ace Editor (le thème est géré par le CDN) */
+        #editor {
+            width: 100%;
+            height: 60vh; /* Hauteur de l'éditeur, ajustable */
+            border: 1px solid var(--vscode-border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Police de caractères pour le code */
+            font-size: 16px;
+            /* Ace Editor gère son propre fond et texte, mais ces bordures sont pour le conteneur */
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 15px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .btn, .custom-file-upload {
+                padding: 12px 25px;
+                font-size: 1em;
+                border-radius: 6px;
+            }
+
+            .upload-form, .editor-form {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .btn, .custom-file-upload {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                border-radius: 5px;
+            }
+
+            .upload-form, .editor-form {
+                gap: 10px;
+            }
+
+            #editor {
+                height: 50vh; /* Ajuste la hauteur de l'éditeur sur les petits écrans */
+            }
+        }
+    </style>
+
+    <script>
+        // Affiche le nom du fichier choisi par l'utilisateur
+        document.getElementById('fileToUpload').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Aucun fichier choisi';
+            document.getElementById('file-name-display').textContent = fileName;
+        });
+    </script>
+</body>
+</html>
